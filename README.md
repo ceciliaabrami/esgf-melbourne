@@ -46,7 +46,7 @@ We evaluated and trained the models using the Mean Squared Error because our mod
         <tr>
             <td>1989</td>
             <td>13.9</td>
-            <td><13.3/td>
+            <td>13.3</td>
             <td>15.4</td>
         </tr>
     </tbody>
