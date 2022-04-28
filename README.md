@@ -5,12 +5,12 @@
 
 We had to build a model able to predict the **daily** temperature in Melbourne over the **next year**.
 
-##Difficulties
+## Difficulties
 We had to rewrite parts of the esgflib as the split_train_test_data when given 1987 would return the first 1987 data points and not the data points up to the year 1987. It was also not possible to extract test data given a year, so we wrote create_test_data that returns as X the last ***history_days** data points of the last year and as Y the first **horizon_days** data points of the year.
 There is also a missing data point on the 31st Dec 1988 that forced us to adapt.
 
 
-##Model
+## Model
 After trying some basic models based on convolutions and bidirectional GRU, we decided to use the LSTNet model that is particularly well fitted to the problem as we encounter seasonality in the data. 
 We also tried to work with a transformer model found on GitHub but could not obtain better results.
 We decided to build 9 different models for the 9 predictions as it allows us to obtain better results with models built explicitly for the task.
