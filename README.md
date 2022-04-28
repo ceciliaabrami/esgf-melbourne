@@ -1,27 +1,25 @@
-# ESGF Melbourne (dev)
+# TP 4 de ABRAMI Cecilia, CHERIF Leila and SITBON Yael
 
-## Data
-
-Minimum daily temperatures over 10 years (1981-1990) in the city Melbourne, Australia.
-
-![Daily temperature evolution](docs/pics/temperature_evolution.png "Daily Temperature Evolution")
 
 ## Objective
 
-We want to build a model able to predict the **daily** temperature in Melbourne over the **next year**.
+We had to build a model able to predict the **daily** temperature in Melbourne over the **next year**.
+
+##Difficulties
+We had to rewrite parts of the esgflib as the split_train_test_data when given 1987 would return the first 1987 data points and not the data points up to the year 1987. It was also not possible to extract test data given a year, so we wrote create_test_data that returns as X the last ***history_days** data points of the last year and as Y the first **horizon_days** data points of the year.
+There is also a missing data point on the 31st Dec 1988 that forced us to adapt.
+
+
+##Model
+After trying some basic models based on convolutions and bidirectional GRU, we decided to use the LSTNet model that is particularly well fitted to the problem as we encounter seasonality in the data. 
+We also tried to work with a transformer model found on GitHub but could not obtain better results.
+We decided to build 9 different models for the 9 predictions as it allows us to obtain better results with models built explicitly for the task.
 
 ## Evaluation
 
-Fit one or more models using the data strictly anterior to the evaluation years 
-`t=1987`, `t=1988` and `t=1989` in order to predict the daily temperature 
-during the year `t=1987`, `t=1988` and `t=1989` respectively.
+We evaluated and trained the models using the Mean Squared Error because our model should be an accurate prediction but we can never predict the small daily variation, only the underlying trends and using the mse will punish harshly the model for large errors but not too much for unpredictable daily variations. 
 
 ### Results
-
-Choose a suitable metric to evaluate the performance of your models. 
-Report the metric in the following table. 
-
-For each evaluation year `t`, you must report the performance considering `k=3`, `k=6` and `k=12` months of data following `t`.
 
 <table>
     <thead>
@@ -35,21 +33,21 @@ For each evaluation year `t`, you must report the performance considering `k=3`,
     <tbody>
         <tr>
             <td>1987</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>5.7</td>
+            <td>6.7</td>
+            <td>9.9</td>
         </tr>
         <tr>
             <td>1988</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>9.4</td>
+            <td>10.6</td>
+            <td>13.3</td>
         </tr>
         <tr>
             <td>1989</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>13.9</td>
+            <td><13.3/td>
+            <td>15.4</td>
         </tr>
     </tbody>
 </table>
